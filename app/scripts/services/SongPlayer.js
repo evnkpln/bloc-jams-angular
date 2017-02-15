@@ -28,6 +28,10 @@
                 volume: SongPlayer.volume
             });
             
+            if(SongPlayer.isMuted === true){
+                currentBuzzObject.mute();
+            }
+            
             currentBuzzObject.bind('timeupdate', function() {
                 $rootScope.$apply(function() {
                     SongPlayer.currentTime = currentBuzzObject.getTime();
@@ -82,12 +86,17 @@
         */
         SongPlayer.volume = 80;
         /**
+        * @desc Flag for whether or not music is muted.
+        * @type {Boolean}
+        */
+        SongPlayer.isMuted = false;
+        /**
         * @function play
         * @desc Stops currently playing song and plays new input song.
         * @param {Object} song
         */        
         SongPlayer.play = function(song) {
-            song = song || SongPlayer.currentSong;
+            song = song || SongPlayer.currentSong || currentAlbum.songs[0];
             if (SongPlayer.currentSong !== song){
                 setSong(song);
                 playSong(song);
@@ -158,8 +167,18 @@
         SongPlayer.setVolume = function(volume){
             if (currentBuzzObject) {
                 currentBuzzObject.setVolume(volume);
-                SongPlayer.volume = volume;
             }
+            SongPlayer.volume = volume;
+        };
+        /**
+        * @function toggleMute
+        * @desc Mutes or unmutes song.
+        */
+        SongPlayer.toggleMute = function(){
+            if (currentBuzzObject) {
+                currentBuzzObject.toggleMute();
+            }
+            SongPlayer.isMuted = !SongPlayer.isMuted;
         };
         return SongPlayer;
     }
