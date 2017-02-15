@@ -1,5 +1,5 @@
 (function () {
-    function SongPlayer(Fixtures) {
+    function SongPlayer($rootScope, Fixtures) {
         var SongPlayer = {};
         /**
         * @desc Album object containing songlist and other information for currently selected album.
@@ -125,5 +125,5 @@
     
     angular
         .module('blocJams')
-        .factory('SongPlayer', ['Fixtures','$rootScope', SongPlayer]);
+        .factory('SongPlayer', ['$rootScope','Fixtures',SongPlayer]);
 })();
