@@ -68,7 +68,7 @@
                 
                 var notifyOnChange = function(newValue) {
                     if (typeof scope.onChange === 'function') {
-                        scope.onChange({torpedo: newValue});
+                        scope.onChange({value: newValue});
                     }
                 };
                 
