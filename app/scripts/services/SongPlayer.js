@@ -24,7 +24,8 @@
             
             currentBuzzObject = new buzz.sound(song.audioUrl, {
                 formats: ['mp3'],
-                preload: true
+                preload: true,
+                volume: SongPlayer.volume
             });
             
             currentBuzzObject.bind('timeupdate', function() {
@@ -47,8 +48,9 @@
         /**
         * @function stopSong
         * @desc Stops the current song.
+        * @param {Object} song
         */
-        var stopSong= function(){
+        var stopSong= function(song){
             currentBuzzObject.stop();
             song.playing = null;
         };
@@ -71,6 +73,11 @@
         * @type {Number}
         */
         SongPlayer.currentTime = null;
+        /**
+        * @desc Volume of playback on a 0-100 scale.
+        * @type {Number}
+        */
+        SongPlayer.volume = 80;
         /**
         * @function play
         * @desc Stops currently playing song and plays new input song.
@@ -106,7 +113,7 @@
             currentSongIndex--;
             
             if (currentSongIndex < 0) {
-                stopSong();
+                stopSong(SongPlayer.currentSong);
             } else {
                 var song = currentAlbum.songs[currentSongIndex];
                 setSong(song);
@@ -123,7 +130,7 @@
             currentSongIndex++;
             
             if (currentSongIndex >= currentAlbum.songs.length) {
-                stopSong();
+                stopSong(SongPlayer.currentSong);
             } else {
                 var song = currentAlbum.songs[currentSongIndex];
                 setSong(song);
@@ -140,7 +147,17 @@
                 currentBuzzObject.setTime(time);
             }
         };
-        
+        /**
+        * @function setVolume
+        * @desc Set volume of playback.
+        * @param {Number} volume
+        */
+        SongPlayer.setVolume = function(volume){
+            if (currentBuzzObject) {
+                currentBuzzObject.setVolume(volume);
+                SongPlayer.volume = volume;
+            }
+        };
         return SongPlayer;
     }
     
