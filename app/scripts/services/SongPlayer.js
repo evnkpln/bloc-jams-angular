@@ -32,6 +32,9 @@
                 $rootScope.$apply(function() {
                     SongPlayer.currentTime = currentBuzzObject.getTime();
                 });
+                if(currentBuzzObject.isEnded()){
+                    SongPlayer.next();
+                }
             });
             
             SongPlayer.currentSong = song;
